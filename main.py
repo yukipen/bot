@@ -1,8 +1,6 @@
 #-*- -*- -*- -*- -*- -*- -*- -*- coding:UTF-8 -*- -*- -*- -*- -*- -*- -*- -*- -
 import discord
 from discord import app_commands
-# from discord.ext import commandslash_commands, Option, OptionType
-# import random
 import os
 #-*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*
 
@@ -16,10 +14,8 @@ intents.members = True
 intents.presences = True
 intents.typing = False
 
-# bot = commands.Bot(command_prefix = '.',intents=intents, help_command=None)
 bot = discord.Client(intents=intents)
 tree = app_commands.CommandTree(bot)
-# tree = bot.tree
 set_guild = discord.Object(CHECK_GUILD)
 
 # スラッシュコマンドを使えるサーバー列挙
@@ -29,7 +25,6 @@ notifyGuilds = [CHECK_GUILD]
 async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
-    print("discord.py -> " + discord.__version__)  # discord.pyのバージョン
     print('------')
     await bot.change_presence(activity=discord.Game(name="ver2.0.1"))
     await tree.sync()
@@ -55,14 +50,11 @@ async def remove_role(inter):
     await inter.author.remove_roles(role) # 上記で取得したロールを剥奪
     await inter.reply('役職を削除しました')
 
+# ボイスチャンネルのステータスが更新
 @bot.event
 async def on_voice_state_update(member, before, after):
-    print(after.channel)
-    print(member)
-    print("-------------------")
     if member.guild.id == CHECK_GUILD and (before.channel != after.channel):
         alert_channel = bot.get_channel(CHANNEL_ID) # alertChannnel
-        print("alert_channel>> ", alert_channel)
         if before.channel is None:
             if after.channel.members is not None:
                 role = discord.utils.get(member.guild.roles, name="notify")
