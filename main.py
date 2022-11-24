@@ -21,6 +21,8 @@ set_guild = discord.Object(CHECK_GUILD)
 # スラッシュコマンドを使えるサーバー列挙
 notifyGuilds = [CHECK_GUILD]
 
+voice_user:str = "None"
+
 @bot.event
 async def on_ready():
     print(bot.user.name)
@@ -57,9 +59,11 @@ async def on_voice_state_update(member, before, after):
         alert_channel = bot.get_channel(CHANNEL_ID) # alertChannnel
         if before.channel is None:
             if after.channel.members is not None:
-                role = discord.utils.get(member.guild.roles, name="notify")
-                msg = f'{role.mention} {member.display_name} が {after.channel.name} に参加しました。'
-                await alert_channel.send(msg)
+                if not member.id is main.voice_user:
+                    main.voice_user = member.id
+                    role = discord.utils.get(member.guild.roles, name="notify")
+                    msg = f'{role.mention} {member.display_name} が {after.channel.name} に参加しました。'
+                    await alert_channel.send(msg)
 
 
 bot.run(DISCORD_TOKEN)
