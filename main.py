@@ -52,6 +52,25 @@ async def remove_role(inter):
     await inter.author.remove_roles(role) # 上記で取得したロールを剥奪
     await inter.reply('役職を削除しました')
 
+# VOICE Chatを移動する
+@tree.command(
+    name = 'move',
+    description = 'ボイスルームを移動させます'
+)
+@app_commands.choices(
+    category=[
+        app_commands.Choice(name="サブウェポン",value="サブ"),
+        app_commands.Choice(name="スペシャル",value="スペシャル"),
+        app_commands.Choice(name="ブキカテゴリー",value="カテゴリー")
+    ]
+)
+@app_commands.autocomplete(name=buki_autocomplete)
+async def move(inter, member: discord.Member, voice_channel: discord.VoiceChannel):
+    # voice_channel = discord.utils.get(inter.guild.channels, id=inter.author.voice.channel.id)
+    # voice_users = [p_list[i].display_name for i in range(len(p_list))]
+    await member.move_to(channel=voice_channel, reason="コマンド操作によって変更されました。")
+    await inter.reply('通話部屋を移動しました')
+
 # ボイスチャンネルのステータスが更新
 @bot.event
 async def on_voice_state_update(member, before, after):
