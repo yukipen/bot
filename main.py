@@ -28,7 +28,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-    await bot.change_presence(activity=discord.Game(name="ver2.0.1"))
+    await bot.change_presence(activity=discord.Game(name="ver2.0.2"))
     await tree.sync()
 
 # 役職を追加する
@@ -55,6 +55,7 @@ async def remove_role(inter):
 # ボイスチャンネルのステータスが更新
 @bot.event
 async def on_voice_state_update(member, before, after):
+    global set_member
     if member.guild.id == CHECK_GUILD and (before.channel != after.channel):
         alert_channel = bot.get_channel(CHANNEL_ID) # alertChannnel
         if before.channel is None:
