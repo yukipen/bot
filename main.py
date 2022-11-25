@@ -57,14 +57,6 @@ async def remove_role(inter):
     name = 'move',
     description = 'ボイスルームを移動させます'
 )
-@app_commands.choices(
-    category=[
-        app_commands.Choice(name="サブウェポン",value="サブ"),
-        app_commands.Choice(name="スペシャル",value="スペシャル"),
-        app_commands.Choice(name="ブキカテゴリー",value="カテゴリー")
-    ]
-)
-@app_commands.autocomplete(name=buki_autocomplete)
 async def move(inter, member: discord.Member, voice_channel: discord.VoiceChannel):
     # voice_channel = discord.utils.get(inter.guild.channels, id=inter.author.voice.channel.id)
     # voice_users = [p_list[i].display_name for i in range(len(p_list))]
