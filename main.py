@@ -20,7 +20,7 @@ set_guild = discord.Object(CHECK_GUILD)
 
 # スラッシュコマンドを使えるサーバー列挙
 notifyGuilds = [CHECK_GUILD]
-set_member = None
+set_member: discord.Member = discord.Member()
 
 
 @bot.event
