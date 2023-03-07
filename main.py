@@ -53,14 +53,14 @@ class Questionnaire(Modal):
     async def on_submit(self, interaction: Interaction) -> None:
         import openai
         openai.api_key = OPENAI_API
-
+        await interaction.response.send_message("thanks!")
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{'role': 'user', 'content': self.answer.value}],
             temperature=0.0,
         )
         print(response['choices'][0]['message']['content'])
-        await interaction.response.send_message(content=response['choices'][0]['message']['content'])
+        await interaction.followup.send(content=response['choices'][0]['message']['content'])
 
 @tree.command(
     name = 'chat',
