@@ -47,7 +47,7 @@ async def add_role(inter):
 class Questionnaire(Modal):
     def __init__(self, title: str) -> None:
         super().__init__(title=title)
-        self.answer = TextInput(label="質問を入力", style=TextStyle.long)
+        self.answer = TextInput(label="質問を入力してください", style=TextStyle.long)
         self.add_item(self.answer)
 
     async def on_submit(self, interaction: Interaction) -> None:
@@ -65,10 +65,10 @@ class Questionnaire(Modal):
 
 @tree.command(
     name = 'chat',
-    description = 'ChatGPTとの会話ができます',
+    description = 'ChatGPTへ質問ができます',
 )
 async def chat(inter):
-    modal = Questionnaire("application questionnaire")
+    modal = Questionnaire("ChatGPTへの質問")
     await interaction.response.send_modal(modal)
 
 # ボイスチャンネルのステータスが更新
