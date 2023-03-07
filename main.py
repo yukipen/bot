@@ -43,15 +43,6 @@ async def add_role(inter):
     await member.add_roles(role) # 上記で取得したロールを付与
     await inter.reply('役職を追加しました')
 
-# 役職を削除する
-@tree.command(
-    name = 'remove_role',
-    description = '通知される役職に登録します。'
-)
-async def remove_role(inter):
-    role = discord.utils.get(inter.guild.roles, name="notify")
-    await inter.author.remove_roles(role) # 上記で取得したロールを剥奪
-    await inter.reply('役職を削除しました')
 
 class Questionnaire(Modal):
     def __init__(self, title: str) -> None:
@@ -76,7 +67,7 @@ class Questionnaire(Modal):
     name = 'chat',
     description = 'ChatGPTとの会話ができます',
 )
-async def remove_role(inter, text=None):
+async def chat(inter):
     if text is not None:
         await inter.reply(text)
     else:
