@@ -1,6 +1,6 @@
 #-*- -*- -*- -*- -*- -*- -*- -*- coding:UTF-8 -*- -*- -*- -*- -*- -*- -*- -*- -
 import discord
-from discord import app_commands
+from discord import app_commands, Interaction, TextStyle
 from discord.ui import TextInput, View, Modal
 import os
 #-*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*
