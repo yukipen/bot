@@ -53,8 +53,7 @@ class Questionnaire(Modal):
     async def on_submit(self, interaction: Interaction) -> None:
         import openai
         openai.api_key = OPENAI_API
-        embed = discord.Embed(title="回答生成中...", description=self.answer.value, colour=0x1e90ff)
-        await interaction.response.send_message(embeds=embed)
+        await interaction.response.send_message("> "+self.answer.value)
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{'role': 'user', 'content': self.answer.value}],
