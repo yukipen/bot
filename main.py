@@ -69,7 +69,7 @@ class Questionnaire(Modal):
 )
 async def chat(inter):
     modal = Questionnaire("ChatGPTへの質問")
-    await interaction.response.send_modal(modal)
+    await inter.response.send_modal(modal)
 
 # ボイスチャンネルのステータスが更新
 @bot.event
