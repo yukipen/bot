@@ -1,13 +1,14 @@
 #-*- -*- -*- -*- -*- -*- -*- -*- coding:UTF-8 -*- -*- -*- -*- -*- -*- -*- -*- -
 import discord
 from discord import app_commands
+from discord.ui import TextInput, View, Modal
 import os
 #-*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*- -*
 
 DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
 CHANNEL_ID = int(os.environ["CHANNEL_ID"])
 CHECK_GUILD = int(os.environ["CHECK_GUILD"])
-
+OPENAI_API = os.environ["OPENAI_TOKEN"]
 
 intents = discord.Intents.default()
 intents.members = True
@@ -28,7 +29,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-    await bot.change_presence(activity=discord.Game(name="ver2.0.2"))
+    await bot.change_presence(activity=discord.Game(name="ver2.0.3"))
     await tree.sync()
 
 # 役職を追加する
@@ -52,16 +53,37 @@ async def remove_role(inter):
     await inter.author.remove_roles(role) # 上記で取得したロールを剥奪
     await inter.reply('役職を削除しました')
 
-# VOICE Chatを移動する
+class Questionnaire(Modal):
+    def __init__(self, title: str) -> None:
+        super().__init__(title=title)
+        self.answer = TextInput(label="質問を入力", style=TextStyle.long)
+        self.add_item(self.answer)
+
+    async def on_submit(self, interaction: Interaction) -> None:
+        import openai
+        openai.api_key = 'OpenAI API シークレットキーを入れます'
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{'role': 'user', 'content': self.answer.value}],
+            temperature=0.0,
+        )
+        print(response['choices'][0]['message']['content'])
+        msg = discord.Embed(title="Response", description=response['choices'][0]['message']['content'], colour=0x1e90ff)
+        await interaction.response.send_message(embeds=msg, components=[LinkButton("ChatGPTより", "https://chat.openai.com/chat")])
+
 @tree.command(
-    name = 'move',
-    description = 'ボイスルームを移動させます'
+    name = 'chat',
+    description = 'ChatGPTとの会話ができます',
 )
-async def move(inter, member: discord.Member, voice_channel: discord.VoiceChannel):
-    # voice_channel = discord.utils.get(inter.guild.channels, id=inter.author.voice.channel.id)
-    # voice_users = [p_list[i].display_name for i in range(len(p_list))]
-    await member.move_to(channel=voice_channel, reason="コマンド操作によって変更されました。")
-    await inter.reply('通話部屋を移動しました')
+async def remove_role(inter, text=None):
+    if text is not None:
+        await inter.reply(text)
+    else:
+        await inter.reply('Not Text')
+
+    modal = Questionnaire("application questionnaire")
+    await interaction.response.send_modal(modal)
 
 # ボイスチャンネルのステータスが更新
 @bot.event
