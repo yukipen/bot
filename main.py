@@ -52,7 +52,7 @@ class Questionnaire(Modal):
 
     async def on_submit(self, interaction: Interaction) -> None:
         import openai
-        openai.api_key = 'OpenAI API シークレットキーを入れます'
+        openai.api_key = OPENAI_API
 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
