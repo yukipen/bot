@@ -68,11 +68,6 @@ class Questionnaire(Modal):
     description = 'ChatGPTとの会話ができます',
 )
 async def chat(inter):
-    if text is not None:
-        await inter.reply(text)
-    else:
-        await inter.reply('Not Text')
-
     modal = Questionnaire("application questionnaire")
     await interaction.response.send_modal(modal)
 
