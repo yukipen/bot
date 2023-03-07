@@ -59,8 +59,7 @@ class Questionnaire(Modal):
             messages=[{'role': 'user', 'content': self.answer.value}],
             temperature=0.0,
         )
-        msg = discord.Embed(title="Question", description=self.answer.value, colour=0x1e90ff)
-        msg.add_field(name="Response", value=response['choices'][0]['message']['content'], inline=True)
+        msg = discord.Embed(title="Question", description=response['choices'][0]['message']['content'], colour=0x1e90ff)
         await interaction.response.send_message(embeds=msg)
 
 @tree.command(
