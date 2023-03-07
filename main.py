@@ -59,6 +59,7 @@ class Questionnaire(Modal):
             messages=[{'role': 'user', 'content': self.answer.value}],
             temperature=0.0,
         )
+        print(response['choices'][0]['message']['content'])
         await interaction.response.send_message(content=response['choices'][0]['message']['content'])
 
 @tree.command(
